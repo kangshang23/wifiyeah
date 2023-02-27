@@ -1,4 +1,4 @@
-package kang.zero.wifiyeah.dto;
+package kang.zero.wifiyeah.dto.request;
 
 import lombok.*;
 
