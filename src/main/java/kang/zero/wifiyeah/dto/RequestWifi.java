@@ -1,7 +1,6 @@
 package kang.zero.wifiyeah.dto;
 
-import jdk.nashorn.internal.objects.annotations.Getter;
-import jdk.nashorn.internal.objects.annotations.Setter;
+import lombok.*;
 
 import java.sql.Timestamp;
 

@@ -22,12 +22,39 @@ tasks.withType(JavaCompile) {
 }
 
 dependencies {
-    compileOnly('javax.servlet:javax.servlet-api:4.0.1')
-    implementation('org.apache.cxf:cxf-rt-frontend-jaxrs:3.4.5')
-    implementation('org.jboss.weld.se:weld-se-core:3.1.8.Final')
+    // web
+    compileOnly 'javax:javaee-web-api:7.0'
 
+    // servlet (javaee)
+    compileOnly('javax.servlet:javax.servlet-api:4.0.1')
+
+    // jsp
+    compileOnly 'javax.servlet:jsp-api:2.0'
+
+    // jstl
+    implementation 'javax.servlet:jstl:1.2'
+
+    // junit
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+    // mysql
+//    implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.0.32'
+//    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.29'
+    implementation 'mysql:mysql-connector-java:8.0.29'
+
+    // lombok
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.26'
+
+    // gson(json)
+    implementation 'com.google.code.gson:gson:2.8.9'
+
+    // jstl
+    implementation group: 'javax.servlet', name: 'jstl', version: '1.2'
+
+
+//    implementation('org.apache.cxf:cxf-rt-frontend-jaxrs:3.4.5')
+//    implementation('org.jboss.weld.se:weld-se-core:3.1.8.Final')
 }
 
 test {
