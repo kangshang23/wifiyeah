@@ -36,7 +36,7 @@ public class ApiExplorer {
 
             // 한번에 1000개 까지 가능 (1~1000, 1001~2001, ..)
             urlBuilder.append("/" + URLEncoder.encode(String.valueOf(i), "UTF-8"));
-            urlBuilder.append("/" + URLEncoder.encode(String.valueOf(i + 1), "UTF-8"));
+            urlBuilder.append("/" + URLEncoder.encode(String.valueOf(i + 999), "UTF-8"));
             URL url = new URL(urlBuilder.toString());
 
             // http connect
