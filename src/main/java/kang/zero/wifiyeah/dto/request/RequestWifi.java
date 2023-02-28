@@ -43,30 +43,4 @@ public class RequestWifi {
         this.LNT = LNT;
         this.workTime = workTime;
     }
-
-    public RequestWifi() {
-
-    }
-
-    @Override
-    public String toString() {
-        return "RequestWifi{" +
-                "manageNum='" + manageNum + '\'' +
-                ", region='" + region + '\'' +
-                ", wifiName='" + wifiName + '\'' +
-                ", roadAddress='" + roadAddress + '\'' +
-                ", detailedAddress='" + detailedAddress + '\'' +
-                ", floor='" + floor + '\'' +
-                ", installationType='" + installationType + '\'' +
-                ", organization='" + organization + '\'' +
-                ", classifiedService='" + classifiedService + '\'' +
-                ", networkType='" + networkType + '\'' +
-                ", yearOfInstall=" + yearOfInstall +
-                ", inOrOut='" + inOrOut + '\'' +
-                ", connEnvironment='" + connEnvironment + '\'' +
-                ", LAT=" + LAT +
-                ", LNT=" + LNT +
-                ", workTime=" + workTime +
-                '}';
-    }
 }
