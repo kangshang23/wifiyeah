@@ -3,8 +3,10 @@
 package kang.zero.wifiyeah.service;
 
 import kang.zero.wifiyeah.config.MySqlConfig;
+import kang.zero.wifiyeah.dto.request.RequestDistance;
 import kang.zero.wifiyeah.dto.request.RequestHistory;
 import kang.zero.wifiyeah.dto.request.RequestWifi;
+import kang.zero.wifiyeah.dto.response.ResponseDistance;
 
 import java.sql.*;
 
@@ -113,7 +115,102 @@ public class Service {
         }
     }
 
+    public void calculateAndSaveDistance(RequestDistance requestDistance) {
+        Float myLat = requestDistance.getLAT();
+        Float myLnt = requestDistance.getLNT();
+        int count = 0;
 
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            // select lat, lnt from wifi
+            conn = dbConn.getConn();
+            String sql = "select manage_num, lat, lnt from wifi";
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+            while (rs.next() && count < 500) {
+                float wifiLat = rs.getFloat("lat");
+                float wifiLnt = rs.getFloat("lnt");
+
+                // calculate distance
+                double distance = calculateDistance(myLat, myLnt, wifiLat, wifiLnt);
+
+                ResponseDistance responseDistance = ResponseDistance.builder()
+                        .distance(distance)
+                        .manageNum(rs.getString("manage_num"))
+                        .build();
+
+                // save distance
+                saveDistance(responseDistance);
+                count++;
+            }
+        } catch (SQLException e) {
+            System.out.println("[SQL Error : " + e.getMessage() + "]");
+        } finally {
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private static double calculateDistance(Float x1, Float y1, Float x2, Float y2) {
+        double dy = Math.pow(Math.abs(y2 - y1), 2);
+        double dx = Math.pow(Math.abs(x2 - x1), 2);
+
+        return Math.sqrt(dx + dy);
+    }
+
+    public static void saveDistance(ResponseDistance responseDistance) {
+        PreparedStatement pstmt = null;
+        Connection conn = null;
+
+        try {
+            conn = dbConn.getConn();
+
+            String sql = "insert into distance(distance, manage_num) " +
+                    "values (?, ?); ";
+
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setDouble(1, responseDistance.getDistance());
+            pstmt.setString(2, responseDistance.getManageNum());
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("[SQL Error : " + e.getMessage() + "]");
+        } finally {
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
 }
 
