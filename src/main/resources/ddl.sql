@@ -19,7 +19,7 @@ CREATE TABLE wifi (
 ) ENGINE=MYISAM CHARSET=utf8;
 
 CREATE TABLE history (
-                         id                  INT NOT NULL,
+                         id                  INT(10) AUTO_INCREMENT,
                          x                   FLOAT,
                          y                   FLOAT,
                          created_time        TIMESTAMP,
