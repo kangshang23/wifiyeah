@@ -19,4 +19,13 @@ public class RequestHistory {
         this.y = y;
         this.createdTime = createdTime;
     }
+
+    @Override
+    public String toString() {
+        return "RequestHistory{" +
+                "x=" + x +
+                ", y=" + y +
+                ", createdTime=" + createdTime +
+                '}';
+    }
 }

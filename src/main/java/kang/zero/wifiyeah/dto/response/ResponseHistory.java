@@ -21,4 +21,14 @@ public class ResponseHistory {
         this.y = y;
         this.createdTime = createdTime;
     }
+
+    @Override
+    public String toString() {
+        return "ResponseHistory{" +
+                "id=" + id +
+                ", x=" + x +
+                ", y=" + y +
+                ", createdTime=" + createdTime +
+                '}';
+    }
 }

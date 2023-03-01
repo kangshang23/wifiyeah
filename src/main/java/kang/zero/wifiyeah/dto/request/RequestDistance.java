@@ -15,4 +15,12 @@ public class RequestDistance {
         this.LAT = LAT;
         this.LNT = LNT;
     }
+
+    @Override
+    public String toString() {
+        return "RequestDistance{" +
+                "LAT=" + LAT +
+                ", LNT=" + LNT +
+                '}';
+    }
 }

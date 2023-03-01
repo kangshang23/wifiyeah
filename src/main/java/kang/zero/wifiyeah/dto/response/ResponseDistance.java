@@ -15,4 +15,12 @@ public class ResponseDistance {
         this.distance = distance;
         this.manageNum = manageNum;
     }
+
+    @Override
+    public String toString() {
+        return "ResponseDistance{" +
+                "distance=" + distance +
+                ", manageNum='" + manageNum + '\'' +
+                '}';
+    }
 }
