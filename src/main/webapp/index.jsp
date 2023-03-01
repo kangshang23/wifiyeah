@@ -22,25 +22,28 @@
 <form action="list.jsp" method="post">
     LAT : <input type="text" id="lat", name="lat"> ,
     LNT : <input type="text" id="lnt", name="lnt">
-    <button onclick="getLocation();">내 위치 가져오기</button>
     <input type="submit" value="근처 WIFI 정보 보기">
 </form>
+
+<button onclick="getLocation();">내 위치 가져오기</button>
 
 <p></p>
 <script>
     function getLocation() {
-        // navigator.geolocation
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (pos) {
+            navigator.geolocation.getCurrentPosition(function (position) {
                 // string
                 // 라이브러리로 구해서
-                const latitude = pos.coords.latitude.toString();
-                const longitude = pos.coords.longitude.toString();
+                const latitude = position.coords.latitude.toString();
+                const longitude = position.coords.longitude.toString();
 
                 // document.getElementById("tag's id").innerHTML
                 // input에 출력
-                document.getElementById("lat").innerHTML = latitude;
-                document.getElementById("lnt").innerHTML = longitude;
+                document.getElementById("lat").value = latitude;
+                document.getElementById("lnt").value = longitude;
+
+                console.log("위도 : " + latitude);
+                console.log("경도 : " + longitude);
             });
         } else {
             window.alert("이 브라우저에서는 Geolocation이 지원되지 않습니다.");
