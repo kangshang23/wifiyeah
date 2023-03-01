@@ -4,7 +4,9 @@
 <head>
     <meta charset="utf-8">
     <title>kang shang</title>
+    <style>
 
+    </style>
 </head>
 
 <body>
@@ -15,18 +17,34 @@
 <a href="save.jsp">Open API 와이파이 정보 가져오기</a>
 <p></p>
 
-<%-- 근처 와이파이 정보 20개 조회 --%>
-<form action="list.jsp" method="post" >
 
+<%-- 내 위치 가져오기, 근처 와이파이 20개 조회 --%>
+<form action="list.jsp" method="post">
+    LAT : <input type="text" id="lat", name="lat"> ,
+    LNT : <input type="text" id="lnt", name="lnt">
+    <button onclick="getLocation();">내 위치 가져오기</button>
+    <input type="submit" value="근처 WIFI 정보 보기">
 </form>
 
-<%-- 내 위치 가져오기 --%>
-<%-- HTML5 Geolocation API --%>
-<button id="locationbtn" type="button" onclick="getLocation();">내 위치 가져오기</button>
 <p></p>
 <script>
     function getLocation() {
+        // navigator.geolocation
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (pos) {
+                // string
+                // 라이브러리로 구해서
+                const latitude = pos.coords.latitude.toString();
+                const longitude = pos.coords.longitude.toString();
 
+                // document.getElementById("tag's id").innerHTML
+                // input에 출력
+                document.getElementById("lat").innerHTML = latitude;
+                document.getElementById("lnt").innerHTML = longitude;
+            });
+        } else {
+            window.alert("이 브라우저에서는 Geolocation이 지원되지 않습니다.");
+        }
     }
 </script>
 <p></p>
