@@ -5,6 +5,7 @@ import kang.zero.wifiyeah.dto.request.RequestDistance;
 import kang.zero.wifiyeah.dto.request.RequestHistory;
 import kang.zero.wifiyeah.dto.request.RequestWifi;
 import kang.zero.wifiyeah.dto.response.ResponseDistance;
+import kang.zero.wifiyeah.dto.response.ResponseHistory;
 import kang.zero.wifiyeah.dto.response.ResponseWifi;
 
 import java.sql.*;
@@ -270,5 +271,50 @@ public class Service {
             }
         }
         return responseWifi20;
+    }
+
+    public List<ResponseHistory> getHistoryList() {
+        List<ResponseHistory> responseHistories = new ArrayList<>();
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = dbConn.getConn();
+            String sql = "select * from history order by history_id desc";
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                ResponseHistory responseHistory = ResponseHistory.builder()
+                        .id(rs.getInt("history_id"))
+                        .x(rs.getFloat("x"))
+                        .y(rs.getFloat("y"))
+                        .createdTime(rs.getTimestamp("created_time"))
+                        .build();
+
+                responseHistories.add(responseHistory);
+            }
+        } catch (SQLException e) {
+            System.out.println("[SQL Error : " + e.getMessage() + "]");
+        } finally {
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return responseHistories;
     }
 }
