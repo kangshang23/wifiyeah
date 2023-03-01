@@ -1,10 +1,11 @@
 <%@ page import="java.time.LocalDateTime" %>
 <%@ page import="kang.zero.wifiyeah.dto.request.RequestHistory" %>
 <%@ page import="java.sql.Timestamp" %>
-<%@ page import="kang.zero.wifiyeah.service.WifiService" %>
+<%@ page import="kang.zero.wifiyeah.service.Service" %>
 <%@ page import="kang.zero.wifiyeah.dto.request.RequestDistance" %>
 <%@ page import="kang.zero.wifiyeah.dto.response.ResponseWifi" %>
 <%@ page import="java.util.List" %>
+<%@ page import="kang.zero.wifiyeah.service.HistoryService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -65,8 +66,8 @@
           .build();
 
   // saveHistory()
-  WifiService wifiService = new WifiService();
-  wifiService.saveHistory(requestHistory);
+  Service service = new Service();
+  service.saveHistory(requestHistory);
 
   // RequestDistance
   RequestDistance requestDistance = RequestDistance.builder()
@@ -75,7 +76,7 @@
           .build();
 
   // calculateAndSaveDistance()
-  wifiService.calculateAndSaveDistance(requestDistance);
+  service.calculateAndSaveDistance(requestDistance);
 %>
 <p></p>
 <table>
@@ -103,8 +104,8 @@
   <tbody>
   <tr>
     <%
-      // 근처 와이파이 20개 조회 : getWifi20()
-      List<ResponseWifi> responseWifi20 = wifiService.getWifi20();
+      // getWifi20()
+      List<ResponseWifi> responseWifi20 = service.getWifi20();
       for (ResponseWifi responseWifi : responseWifi20) {
         out.write("<tr>");
         out.write("<td>" + responseWifi.getDistance() + "</td>");

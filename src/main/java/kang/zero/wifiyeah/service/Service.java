@@ -9,7 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class WifiService {
+public class Service {
     final static MySqlConfig dbConn = new MySqlConfig();
 
     public void saveWifi(RequestWifi requestWifi) {
@@ -75,5 +75,8 @@ public class WifiService {
         pstmt.close();
         conn.close();
     }
+
+
+
 }
 
