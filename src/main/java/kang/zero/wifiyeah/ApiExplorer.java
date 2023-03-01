@@ -2,7 +2,7 @@ package kang.zero.wifiyeah;
 
 import com.google.gson.*;
 import kang.zero.wifiyeah.dto.request.RequestWifi;
-import kang.zero.wifiyeah.service.WifiService;
+import kang.zero.wifiyeah.service.Service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 
 public class ApiExplorer {
     long start = System.nanoTime();
-    WifiService wifiService = new WifiService();
+    Service wifiService = new Service();
 
     public Integer saveWifi() throws IOException, SQLException, ClassNotFoundException {
         // 초기화
