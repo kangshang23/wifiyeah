@@ -1,4 +1,4 @@
-### 내 위치 기반 공공 와이파이 정보를 제공하는 웹서비스 WIFIYEAH
+# 내 위치 기반 공공 와이파이 정보를 제공하는 웹서비스 WIFIYEAH
 <img src="img/thumbnail.png">
 
 <br><br>
@@ -14,15 +14,15 @@
 
 <br><br>
 
-### 📎 ERD
+## 📎 ERD
 <img src="img/erd.png" width="80%" height="80%">
 
 <br><br>
 
-### 📎 명세
-#### **Open API 와이파이 정보 가져오기**
+## 📎 명세
+### ◎ Open API 와이파이 정보 가져오기
 - 요청
-`http://openapi.seoul.go.kr:8088/6e48566c416b746f363571506a5a76/json/TbPublicWifiInfo/1/5`
+`http://openapi.seoul.go.kr:8088/sample/json/TbPublicWifiInfo/1/5`
 - 응답
 ```json
 [
@@ -60,7 +60,7 @@
 
 <br>
 
-#### 근처 와이파이 정보 보기
+### ◎ 근처 와이파이 정보 보기
 1. 내 위치 가져오기
 - JavaScript `navigator.geolocation` 사용
 
@@ -106,7 +106,7 @@
 
 <br>
 
-#### 위치 히스토리 목록
+### ◎ 위치 히스토리 목록
 - 응답
 
   | 이름  |타입|설명|
@@ -118,7 +118,7 @@
 
 <br><br>
 
-### 📎 트러블 슈트
+## 📎 트러블 슈트
 <details>
 <summary>마이그레이션 반복 시 와이파이 테이블 초기화 🆚업데이트</summary>
 <div markdown="1">
@@ -163,7 +163,7 @@
 
 <br><br>
 
-### 📎 아쉬운점
+## 📎 아쉬운점
 <details>
 <summary>테이블 개수 줄이기, dto 내부클래스</summary>
 <div markdown="1">
@@ -227,7 +227,7 @@
 
 <br><br>
 
-### 📎 배운점
+## 📎 배운점
 <details>
 <summary>서블릿</summary>
 <div markdown="1">
