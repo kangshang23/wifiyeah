@@ -25,3 +25,9 @@ CREATE TABLE history (
                          created_time        TIMESTAMP,
                          PRIMARY KEY(id)
 ) ENGINE=MYISAM CHARSET=utf8;
+
+CREATE TABLE distance (
+                         manage_num         VARCHAR(100) NOT NULL,
+                         distance           DOUBLE,
+                         PRIMARY KEY(manage_num)
+) ENGINE=MYISAM CHARSET=utf8;
