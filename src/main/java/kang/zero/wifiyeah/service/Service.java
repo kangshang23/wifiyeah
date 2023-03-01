@@ -80,10 +80,31 @@ public class Service {
         conn.close();
     }
 
-    public void saveHistory(RequestHistory requestHistory) throws SQLException, ClassNotFoundException {
-        Service service = new Service();
-        service.deleteAllWifi();
+    public void deleteAllHistory() throws SQLException, ClassNotFoundException {
+        Connection conn = dbConn.getConn();
 
+        String sql = "truncate hitory;";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.executeUpdate(sql);
+
+        pstmt.executeUpdate();
+        pstmt.close();
+        conn.close();
+    }
+
+    public void deleteAllDistance() throws SQLException, ClassNotFoundException {
+        Connection conn = dbConn.getConn();
+
+        String sql = "truncate distance;";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.executeUpdate(sql);
+
+        pstmt.executeUpdate();
+        pstmt.close();
+        conn.close();
+    }
+
+    public void saveHistory(RequestHistory requestHistory) throws SQLException, ClassNotFoundException {
         PreparedStatement pstmt = null;
         Connection conn = null;
 
@@ -127,7 +148,7 @@ public class Service {
         Float myLnt = requestDistance.getLNT();
         int count = 0;
 
-        System.out.println("myLat, myLnt = " + myLat + ", " + myLnt);
+        System.out.println("myLat, myLnt = " + myLat + ", " + myLnt); // 확인
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -136,11 +157,12 @@ public class Service {
         try {
             // select lat, lnt from wifi
             conn = dbConn.getConn();
-            String sql = "select manage_num, lat, lnt from wifi";
+            String sql = "select manage_num, lat, lnt from wifi"; // 문제 없음
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
-            while (rs.next() && count < 500) {
-                // not here
+
+            while (rs.next() && count < 3) {
+                //
                 float wifiLat = rs.getFloat("lat");
                 float wifiLnt = rs.getFloat("lnt");
                 System.out.println("wifiLat, wifiLnt = " + wifiLat + ", " + wifiLnt);
@@ -151,17 +173,23 @@ public class Service {
 
                 ResponseDistance responseDistance = ResponseDistance.builder()
                         .distance(distance)
-                        .manageNum(rs.getString("manage_num"))
+                        .manageNum(rs.getString("manage_num")) // 무결성 for join
                         .build();
 
                 System.out.println("responseDistance = " + responseDistance);
 
+                // manage_num 중복 해결하기 위해 (이러면 안될것같지만)
+                Service service = new Service();
+                service.deleteAllDistance();
+
                 // save distance
-                saveDistance(responseDistance); // 확인
+                saveDistance(responseDistance);
                 count++;
             }
         } catch (SQLException e) {
             System.out.println("[SQL Error : " + e.getMessage() + "]");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         } finally {
             if (pstmt != null) {
                 try {
@@ -230,7 +258,7 @@ public class Service {
     }
 
     public List<ResponseWifi> getWifi20() {
-        System.out.println("===[getWifi20()]===");
+        System.out.println("===[getWifi20()]==="); // 확인
         List<ResponseWifi> responseWifi20 = new ArrayList<>();
 
         Connection conn = null;
@@ -239,24 +267,26 @@ public class Service {
 
         try {
             conn = dbConn.getConn();
-            String sql = "select d.distance, w.* from wifi w join distance d on d.manage_num = w.manage_num order by d.distance limit 0, 20";
+
+            String sql = "select d.distance, w.* from wifi w join distance d on d.manage_num = w.manage_num order by d.distance limit 0, 2"; // 문제 없음
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
 
+            // joined table
             while (rs.next()) {
                 ResponseWifi responseWifi = ResponseWifi.builder()
-                        .distance(rs.getFloat("distance"))
+                        .distance(rs.getFloat("distance")) // join table 이므로 있음
                         .manageNum(rs.getString("manage_num"))
                         .region(rs.getString("region"))
                         .wifiName(rs.getString("wifi_name"))
                         .roadAddress(rs.getString("road_address"))
                         .detailedAddress(rs.getString("detailed_address"))
                         .floor(rs.getString("floor"))
-                        .installationType(rs.getString("installation_type"))
-                        .organization(rs.getString("organization"))
-                        .classifiedService(rs.getString("classified_service"))
+                        .installationType(rs.getString("installaion_type")) // column not found // 하아 오타
+                        .organization(rs.getString("organizations"))
+                        .classifiedService(rs.getString("claasified_service"))
                         .networkType(rs.getString("network_type"))
-                        .yearOfInstall(rs.getInt("year_or_install"))
+                        .yearOfInstall(rs.getInt("year_of_install"))
                         .inOrOut(rs.getString("inorout"))
                         .connEnvironment(rs.getString("conn_environment"))
                         .LAT(rs.getFloat("lat"))
@@ -265,6 +295,10 @@ public class Service {
                         .build();
 
                 responseWifi20.add(responseWifi);
+            }
+
+            for (ResponseWifi responseWifi : responseWifi20) {
+                System.out.println(responseWifi);
             }
 
         } catch (SQLException e) {
