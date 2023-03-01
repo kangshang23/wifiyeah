@@ -3,11 +3,10 @@
 package kang.zero.wifiyeah.service;
 
 import kang.zero.wifiyeah.config.MySqlConfig;
+import kang.zero.wifiyeah.dto.request.RequestHistory;
 import kang.zero.wifiyeah.dto.request.RequestWifi;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Service {
     final static MySqlConfig dbConn = new MySqlConfig();
@@ -74,6 +73,44 @@ public class Service {
         pstmt.executeUpdate();
         pstmt.close();
         conn.close();
+    }
+
+    public void saveHistory(RequestHistory requestHistory) {
+        PreparedStatement pstmt = null;
+        Connection conn = null;
+
+        try {
+            conn = dbConn.getConn();
+
+            String sql = "insert into history(x, y, created_time) " +
+                    "values (?, ?, ?); ";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setFloat(1, requestHistory.getX());
+            pstmt.setFloat(2, requestHistory.getY());
+            pstmt.setTimestamp(3, requestHistory.getCreatedTime());
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("[SQL Error : " + e.getMessage() + "]");
+        } finally {
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 
