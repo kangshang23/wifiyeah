@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>kang shang</title>
     <style>
-
+        .divbox {display: inline-flex;}
     </style>
 </head>
 
@@ -19,13 +19,15 @@
 
 
 <%-- 내 위치 가져오기, 근처 와이파이 20개 조회 --%>
+<div class="divbox">
 <form action="list.jsp" method="post">
     LAT : <input type="text" id="lat", name="lat"> ,
     LNT : <input type="text" id="lnt", name="lnt">
-    <input type="submit" value="근처 WIFI 정보 보기">
+    <input onclick="getWifi();" type="submit" value="근처 WIFI 정보 보기">
 </form>
 
 <button onclick="getLocation();">내 위치 가져오기</button>
+</div>
 
 <p></p>
 <script>
@@ -47,6 +49,20 @@
             });
         } else {
             window.alert("이 브라우저에서는 Geolocation이 지원되지 않습니다.");
+        }
+    }
+
+    function getWifi() {
+        let lat = document.getElementById("lat").value;
+        let lnt = document.getElementById("lnt").value;
+        if (lat == null || lat === "") {
+            alert("LAT값을 입력해주세요.");
+            document.getElementById("x").focus();
+            return;
+        } else if (lnt == null || lnt === "") {
+            alert("LNT값을 입력해주세요.");
+            document.getElementById("y").focus();
+            return;
         }
     }
 </script>

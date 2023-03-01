@@ -11,7 +11,7 @@
   <meta charset="utf-8">
   <title>kang shang</title>
   <style>
-
+    .divbox {display: inline-flex;}
   </style>
 </head>
 
@@ -24,13 +24,16 @@
 <p></p>
 
 <%-- 내 위치 가져오기, 근처 와이파이 20개 조회 --%>
+<div class="divbox">
 <form action="list.jsp" method="post">
   LAT : <input type="text" id="lat", name="lat"> ,
   LNT : <input type="text" id="lnt", name="lnt">
   <input type="submit" value="근처 WIFI 정보 보기">
+  <input onclick="getWifi();" type="submit" value="근처 WIFI 정보 보기">
 </form>
 
 <button onclick="getLocation();">내 위치 가져오기</button>
+</div>
 
 <p></p>
 <script>
@@ -54,37 +57,51 @@
       window.alert("이 브라우저에서는 Geolocation이 지원되지 않습니다.");
     }
   }
+
+  function getWifi() {
+    let lat = document.getElementById("lat").value;
+    let lnt = document.getElementById("lnt").value;
+    if (lat == null || lat === "") {
+      alert("LAT값을 입력해주세요.");
+      document.getElementById("x").focus();
+      return;
+    } else if (lnt == null || lnt === "") {
+      alert("LNT값을 입력해주세요.");
+      document.getElementById("y").focus();
+      return;
+    }
+  }
 </script>
 <%
-  // request.getParameter("input 태그의 name 값")
-  String lat = request.getParameter("lat");
-  String lnt = request.getParameter("lnt");
+    // request.getParameter("input 태그의 name 값")
+    String lat = request.getParameter("lat");
+    String lnt = request.getParameter("lnt");
 
-  System.out.println("lat, lnt = " + lat + ", " + lnt);
+    System.out.println("lat, lnt = " + lat + ", " + lnt);
 
-  // RequestHistory
-  RequestHistory requestHistory = RequestHistory.builder()
-          .x(Float.parseFloat(lat))
-          .y(Float.parseFloat(lnt))
-          .createdTime(new Timestamp(System.currentTimeMillis()))
-          .build();
+    // RequestHistory
+    RequestHistory requestHistory = RequestHistory.builder()
+            .x(Float.parseFloat(lat))
+            .y(Float.parseFloat(lnt))
+            .createdTime(new Timestamp(System.currentTimeMillis()))
+            .build();
 
-  System.out.println("requestHistory = " + requestHistory);
+    System.out.println("requestHistory = " + requestHistory);
 
-  // saveHistory()
-  Service service = new Service();
-  service.saveHistory(requestHistory); // 확인
+    // saveHistory()
+    Service service = new Service();
+    service.saveHistory(requestHistory); // 확인
 
-  // RequestDistance
-  RequestDistance requestDistance = RequestDistance.builder()
-          .LAT(Float.valueOf(lat))
-          .LNT(Float.valueOf(lnt))
-          .build();
+    // RequestDistance
+    RequestDistance requestDistance = RequestDistance.builder()
+            .LAT(Float.valueOf(lat))
+            .LNT(Float.valueOf(lnt))
+            .build();
 
-  System.out.println("requestDistance = " + requestDistance); // 확인
+    System.out.println("requestDistance = " + requestDistance); // 확인
 
-  // calculateAndSaveDistance()
-  service.calculateAndSaveDistance(requestDistance);
+    // calculateAndSaveDistance()
+    service.calculateAndSaveDistance(requestDistance);
 %>
 <p></p>
 <table>
