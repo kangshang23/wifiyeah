@@ -161,7 +161,7 @@ public class Service {
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
 
-            while (rs.next() && count < 3) {
+            while (rs.next() && count < 500) {
                 //
                 float wifiLat = rs.getFloat("lat");
                 float wifiLnt = rs.getFloat("lnt");
@@ -179,8 +179,8 @@ public class Service {
                 System.out.println("responseDistance = " + responseDistance);
 
                 // manage_num 중복 해결하기 위해 (이러면 안될것같지만)
-                Service service = new Service();
-                service.deleteAllDistance();
+//                Service service = new Service();
+//                service.deleteAllDistance();
 
                 // save distance
                 saveDistance(responseDistance);
@@ -188,8 +188,6 @@ public class Service {
             }
         } catch (SQLException e) {
             System.out.println("[SQL Error : " + e.getMessage() + "]");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         } finally {
             if (pstmt != null) {
                 try {
@@ -268,7 +266,7 @@ public class Service {
         try {
             conn = dbConn.getConn();
 
-            String sql = "select d.distance, w.* from wifi w join distance d on d.manage_num = w.manage_num order by d.distance limit 0, 2"; // 문제 없음
+            String sql = "select d.distance, w.* from wifi w join distance d on d.manage_num = w.manage_num order by d.distance limit 0, 20"; // 문제 없음
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
 
