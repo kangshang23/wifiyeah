@@ -1,9 +1,9 @@
-# 내 위치 기반 공공 와이파이 정보를 제공하는 웹서비스 WIFIYEAH
+# [WIFIYEAH] 내 위치 기반 공공 와이파이 정보를 제공하는 웹서비스
 <img src="img/thumbnail.png">
 
 <br><br>
 
-### 📎 개발 환경
+## 📌 개발 환경
 |       분야        |           stack           |  
 |:---------------:|:-------------------------:|  
 |       언어        |     open jdk 11.0.16      |  
@@ -14,12 +14,12 @@
 
 <br><br>
 
-## 📎 ERD
-<img src="img/erd.png" width="80%" height="80%">
+## 📌 ERD
+<img src="img/erd.png" width="70%" height="70%">
 
 <br><br>
 
-## 📎 명세
+## 📌 명세
 ### ◎ Open API 와이파이 정보 가져오기
 - 요청
 `http://openapi.seoul.go.kr:8088/sample/json/TbPublicWifiInfo/1/5`
@@ -118,7 +118,7 @@
 
 <br><br>
 
-## 📎 트러블 슈트
+## 📌 트러블 슈트
 <details>
 <summary>마이그레이션 반복 시 와이파이 테이블 초기화 🆚업데이트</summary>
 <div markdown="1">
@@ -163,7 +163,7 @@
 
 <br><br>
 
-## 📎 아쉬운점
+## 📌 아쉬운점
 <details>
 <summary>테이블 개수 줄이기, dto 내부클래스</summary>
 <div markdown="1">
@@ -227,7 +227,7 @@
 
 <br><br>
 
-## 📎 배운점
+## 📌 배운점
 <details>
 <summary>서블릿</summary>
 <div markdown="1">
