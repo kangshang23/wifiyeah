@@ -5,7 +5,6 @@
 <%@ page import="kang.zero.wifiyeah.dto.request.RequestDistance" %>
 <%@ page import="kang.zero.wifiyeah.dto.response.ResponseWifi" %>
 <%@ page import="java.util.List" %>
-<%@ page import="kang.zero.wifiyeah.service.HistoryService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -28,25 +27,28 @@
 <form action="list.jsp" method="post">
   LAT : <input type="text" id="lat", name="lat"> ,
   LNT : <input type="text" id="lnt", name="lnt">
-  <button onclick="getLocation();">내 위치 가져오기</button>
   <input type="submit" value="근처 WIFI 정보 보기">
 </form>
+
+<button onclick="getLocation();">내 위치 가져오기</button>
 
 <p></p>
 <script>
   function getLocation() {
-    // navigator.geolocation
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function (pos) {
+      navigator.geolocation.getCurrentPosition(function (position) {
         // string
         // 라이브러리로 구해서
-        const ResultLat = pos.coords.latitude.toString();
-        const ResultLnt = pos.coords.longitude.toString();
+        const latitude = position.coords.latitude.toString();
+        const longitude = position.coords.longitude.toString();
 
         // document.getElementById("tag's id").innerHTML
         // input에 출력
-        document.getElementById("lat").innerHTML = ResultLat;
-        document.getElementById("lnt").innerHTML = ResultLnt;
+        document.getElementById("lat").value = latitude;
+        document.getElementById("lnt").value = longitude;
+
+        console.log("위도 : " + latitude);
+        console.log("경도 : " + longitude);
       });
     } else {
       window.alert("이 브라우저에서는 Geolocation이 지원되지 않습니다.");
@@ -58,6 +60,8 @@
   String lat = request.getParameter("lat");
   String lnt = request.getParameter("lnt");
 
+  System.out.println("lat, lnt = " + lat + ", " + lnt);
+
   // RequestHistory
   RequestHistory requestHistory = RequestHistory.builder()
           .x(Float.parseFloat(lat))
@@ -65,15 +69,19 @@
           .createdTime(new Timestamp(System.currentTimeMillis()))
           .build();
 
+  System.out.println("requestHistory = " + requestHistory);
+
   // saveHistory()
   Service service = new Service();
-  service.saveHistory(requestHistory);
+  service.saveHistory(requestHistory); // 확인
 
   // RequestDistance
   RequestDistance requestDistance = RequestDistance.builder()
           .LAT(Float.valueOf(lat))
           .LNT(Float.valueOf(lnt))
           .build();
+
+  System.out.println("requestDistance = " + requestDistance); // 확인
 
   // calculateAndSaveDistance()
   service.calculateAndSaveDistance(requestDistance);
@@ -106,6 +114,11 @@
     <%
       // getWifi20()
       List<ResponseWifi> responseWifi20 = service.getWifi20();
+
+      for (ResponseWifi responseWifi : responseWifi20) {
+        System.out.println("responseWifi 리스트" + responseWifi);
+      }
+
       for (ResponseWifi responseWifi : responseWifi20) {
         out.write("<tr>");
         out.write("<td>" + responseWifi.getDistance() + "</td>");
