@@ -1,5 +1,3 @@
-
-
 package kang.zero.wifiyeah.service;
 
 import kang.zero.wifiyeah.config.MySqlConfig;
@@ -7,8 +5,11 @@ import kang.zero.wifiyeah.dto.request.RequestDistance;
 import kang.zero.wifiyeah.dto.request.RequestHistory;
 import kang.zero.wifiyeah.dto.request.RequestWifi;
 import kang.zero.wifiyeah.dto.response.ResponseDistance;
+import kang.zero.wifiyeah.dto.response.ResponseWifi;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Service {
     final static MySqlConfig dbConn = new MySqlConfig();
@@ -212,5 +213,62 @@ public class Service {
         }
     }
 
-}
+    public List<ResponseWifi> getWifi20() {
+        List<ResponseWifi> responseWifi20 = new ArrayList<>();
 
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = dbConn.getConn();
+            String sql = "select d.distance, w.* from wifi w join distance d on d.manage_num = w.manage_num order by d.distance limit 0, 20";
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                ResponseWifi responseWifi = ResponseWifi.builder()
+                        .distance(rs.getFloat("distance"))
+                        .manageNum(rs.getString("manage_num"))
+                        .region(rs.getString("region"))
+                        .wifiName(rs.getString("wifi_name"))
+                        .roadAddress(rs.getString("road_address"))
+                        .detailedAddress(rs.getString("detailed_address"))
+                        .floor(rs.getString("floor"))
+                        .installationType(rs.getString("installation_type"))
+                        .organization(rs.getString("organization"))
+                        .classifiedService(rs.getString("classified_service"))
+                        .networkType(rs.getString("network_type"))
+                        .yearOfInstall(rs.getInt("year_or_install"))
+                        .inOrOut(rs.getString("inorout"))
+                        .connEnvironment(rs.getString("conn_environment"))
+                        .LAT(rs.getFloat("lat"))
+                        .LNT(rs.getFloat("lnt"))
+                        .workTime(rs.getTimestamp("work_time"))
+                        .build();
+
+                responseWifi20.add(responseWifi);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("[SQL Error : " + e.getMessage() + "]");
+        } finally {
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return responseWifi20;
+    }
+}
