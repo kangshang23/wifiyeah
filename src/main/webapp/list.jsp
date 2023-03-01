@@ -28,7 +28,6 @@
 <form action="list.jsp" method="post">
   LAT : <input type="text" id="lat", name="lat"> ,
   LNT : <input type="text" id="lnt", name="lnt">
-  <input type="submit" value="근처 WIFI 정보 보기">
   <input onclick="getWifi();" type="submit" value="근처 WIFI 정보 보기">
 </form>
 
