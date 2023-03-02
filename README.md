@@ -304,7 +304,7 @@ Servlet으로 안하고 JSP 에서만 연결하며, 자바 코드는 import 태�
 <div markdown="1">
 
 - 스프링 부트 프로젝트를 해보면서 `@RequestBody`, `@ResponseBody` 만 사용해봤다. 
-json 데이터를 받아서 직접 객체로 변환하고, 역시 `@GetMapping()` 없이 라이브러리로 http 통신을 했다.
+json 데이터를 받아서 직접 객체로 변환하고, 역시 `@GetMapping()` 없이 `HttpUrlConnect`라이브러리로 http 통신을 했다.
 </div>
 </details>
 
