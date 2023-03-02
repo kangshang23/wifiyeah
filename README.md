@@ -8,13 +8,17 @@
 <br><br>
 
 ## 📌 개발 환경
-|       분야        |           stack           |  
-|:---------------:|:-------------------------:|  
-|       언어        |     open jdk 11.0.16      |  
-|       DB        |  MySQL-Connector 5.1.49   |  
-|       빌드툴       |          Gradle           |  
-|   Persistence   |           JDBC            |  
-|       IDE       |         IntelliJ          |
+|     분야      |         stack          |  
+|:-----------:|:----------------------:|  
+|     언어      |    open jdk 11.0.16    |  
+|     DB      | MySQL-Connector 5.1.49 |  
+|     빌드툴     |         Gradle         |  
+| Persistence |          JDBC          |  
+|     IDE     |        IntelliJ        |
+|     서버      |     Tomcat 9.0.72      |
+|   템플릿 엔진    |          JSP           |
+|   서버 플랫폼    |        JavaEE8         |
+
 
 <br><br>
 
