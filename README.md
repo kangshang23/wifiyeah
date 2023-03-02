@@ -185,14 +185,6 @@
 <br><br>
 
 ## 📌 아쉬운점
-<details>
-<summary>⭐ 테이블 개수 줄이기, dto 내부클래스</summary>
-<div markdown="1">
-
-- dto request, response로 단순히 생각해서 테이블을 만들었고, 만들면서도 distance dto 굳이 필요 없겠다 생각은 들었지만, 내부 클래스로 나중에 멋지게 바꾸어야지 라고 생각만 하고 마감 전에 실행하지 못했다.
-- 마이그레이션 시간 단축과 더불어서 리팩토링 하고싶은 대상이다.
-</div>
-</details>
 
 <details>
 <summary>⭐ 마이그레이션 시간 단축</summary>
